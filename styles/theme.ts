@@ -1,54 +1,39 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-import { fade } from "@material-ui/core/styles";
+import { createMuiTheme, fade } from "@material-ui/core";
 
-export const STATUS_COLOR: { [key: string]: string } = {
-    Live: '#65C91C',
-    Past: '#4D4D4D',
-    Upcoming: '#8343E5',
-    Archived: '#FF0000',
-}
-
-export default createMuiTheme({
+const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#8343E5',
-            light: fade('#8343E5', 0.2),
+            main: '#1375BC',
+            light: fade('#1375BC', 0.3),
             contrastText: "#fff",
         },
         secondary: {
-            main: '#65C91C',
-            light: fade('#65C91C', 0.1),
+            main: '#4EBC95',
+            light: '#A6DDCA',
             contrastText: "#fff"
         },
         grey: {
-            100: '#262626',
-            200: '#4D4D4D',
-            300: '#808080',
-            400: '#D9D9D9',
-            500: '#474747',
-            600: '#707070',
-            700: '#E5E8F2',
-            800: '#363535',
+            "100": '#2A2A2A',
+            "200": "#6B738E",
+            "300": "#AEB4C5",
+            "400": "#D0D4E1",
+            "500": "#EAEBEF",
+            "600": "#868B9B",
+            "700": "#f6f6fa",
+            "800": "#49516b"
         },
         text: {
-            primary: "#4D4D4D",
-            secondary: "#707070"
+            primary: "#2a2a2a",
+            secondary: "#484848"
         },
         background: {
-            default: "#F5F5F5",
+            default: "#F2F2F2",
             paper: "#fff"
         },
         common: {
             black: '#000',
             white: '#fff'
         },
-        action: {
-            active: '#4D4D4D'
-        },
-        error: {
-            main: '#B71840'
-        },
-
     },
     typography: {
         fontFamily: 'lato',
@@ -62,7 +47,8 @@ export default createMuiTheme({
             fontSize: 48
         },
         h4: {
-            fontSize: 34
+            fontSize: 24,
+            fontWeight: 'bold'
         },
         h5: {
             fontSize: 24
@@ -84,6 +70,10 @@ export default createMuiTheme({
         body2: {
             fontSize: 14
         },
+        button: {
+            fontSize: 16,
+            fontWeight: 700
+        },
         caption: {
             fontSize: 12,
             fontWeight: 'bold'
@@ -92,69 +82,25 @@ export default createMuiTheme({
             fontSize: 12,
             textTransform: 'unset'
         },
-
     },
     overrides: {
         MuiButton: {
-            label: {
-                fontWeight: 'bold',
-                fontSize: 16,
-            },
-            outlined: {
-                textTransform: 'capitalize'
-            },
-            text: {
-                textTransform: 'capitalize'
-            },
-            sizeLarge: {
-                height: 45
-            },
+            root: {
+                textTransform: 'unset'
+            }
         },
         MuiFab: {
-            sizeSmall: {
-                height: 36,
-                width: 36,
-                borderRadius: 18
-            }
-        },
-        MuiTooltip: {
-            tooltip: {
-                backgroundColor: "#707070"
-            }
-        },
-        MuiSnackbar: {
             root: {
-                zIndex: 1500
-            }
-        },
-        MuiChip: {
-            root: {
-                height: 'auto',
-                minHeight: '26px'
-            }
-        },
-        MuiCheckbox: {
-            root: {
-                /**
-                 * To horizontal align with other elements.
-                 * PaddingLeft is 9 by default that make it shift right 
-                 * by 9 pixels + pixel is the space between svg container and path of the checkbox, 
-                 * so to align, just move it left bhy 9 + 3 = 12 pixels.
-                 */
-                // marginLeft: -12
-                padding: 0,
+                height: 46,
+                width: 46,
+                boxShadow: '0px 1px 3px #00000029;'
             },
-
-        },
-        MuiTypography: {
-            root: {
-                whiteSpace: 'pre-wrap'
+            colorInherit: {
+                backgroundColor: '#fff',
+                color: 'black'
             }
         }
-        // MuiInputBase: {
-        //     input: {
-        //         padding: 0
-        //     }
-        // }
     }
-})
+});
+
+export default theme;

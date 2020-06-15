@@ -1,5 +1,11 @@
+import { request } from "resources/utils"
+
 // utils/AuthService.js
 export default class AuthService {
+
+    static signUp = async (data: { firstName: string, lastName: string, email: string, password: string }) => await request({ url: '/users/signup', method: 'post', data });
+
+    static login = async (data: { email: string, password: string }) => await request({ url: '/users/login', method: 'post', data });
 
     // static login(email: string, password: string) {
     //     // Get a token
