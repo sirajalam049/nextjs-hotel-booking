@@ -7,6 +7,7 @@ import AuthService from 'models/auth';
 import FormContainer from 'components/layout/FormContainer';
 import { Box, Typography, Button } from '@material-ui/core';
 import Link from 'next/link';
+import Header from 'features/Header';
 
 const validationSchema = Yup.object({
     firstName: Yup.string().required('First name is required'),
@@ -76,25 +77,28 @@ const Login: FC<LoginProps> = (props) => {
     }
 
     return (
-        <FormContainer>
-            <Box display='flex' justifyContent={'center'} mb={3} ><Typography variant={'h3'} >Sign Up</Typography></Box>
-            <ReactForm formId="login-form"
-                config={CONFIG}
-                actionConfig={formActionConfig}
-                onSubmit={handleSubmit}
-                validationSchema={validationSchema}
-                formSettings={{
-                    verticalSpacing: 36
-                }}
-                isInProgress={signUpTask.status === 'PROCESSING'}
-            />
-            <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} mt={1.5} >
-                <Typography variant={'caption'} >Already registered?</Typography>
-                <Link href={'/auth/login'} >
-                    <a><Button disableElevation size={'small'} color={'primary'}>LOGIN</Button></a>
-                </Link>
-            </Box>
-        </FormContainer>
+        <>
+            <Header />
+            <FormContainer>
+                <Box display='flex' justifyContent={'center'} mb={3} ><Typography variant={'h3'} >Sign Up</Typography></Box>
+                <ReactForm formId="login-form"
+                    config={CONFIG}
+                    actionConfig={formActionConfig}
+                    onSubmit={handleSubmit}
+                    validationSchema={validationSchema}
+                    formSettings={{
+                        verticalSpacing: 36
+                    }}
+                    isInProgress={signUpTask.status === 'PROCESSING'}
+                />
+                <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} mt={1.5} >
+                    <Typography variant={'caption'} >Already registered?</Typography>
+                    <Link href={'/auth/login'} >
+                        <a><Button disableElevation size={'small'} color={'primary'}>LOGIN</Button></a>
+                    </Link>
+                </Box>
+            </FormContainer>
+        </>
     )
 }
 
