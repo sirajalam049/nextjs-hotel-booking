@@ -24,7 +24,7 @@ const HotelCard: FC<HotelCardProps> = (props) => {
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">{hotel.name}</Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">{hotel.description}</Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">{hotel.about}</Typography>
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
