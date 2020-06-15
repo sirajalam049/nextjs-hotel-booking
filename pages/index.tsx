@@ -1,12 +1,11 @@
-import React, { FC } from 'react'
-import { Box, Grid, Container, Typography } from '@material-ui/core'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { Box, Container, Grid, Typography } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Header from 'features/Header';
-import { Hotel } from 'models/hotel/@types';
 import HotelCard from 'features/hotel/HotelCard';
-import { GetStaticProps } from 'next';
-import { request } from 'resources/utils';
 import HotelModel from 'models/hotel';
+import { Hotel } from 'models/hotel/@types';
+import { GetStaticProps } from 'next';
+import React, { FC } from 'react';
 
 export interface HomeProps {
 	hotels: Hotel[];
