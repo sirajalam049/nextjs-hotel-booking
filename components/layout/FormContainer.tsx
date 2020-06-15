@@ -25,10 +25,10 @@ const useStyles = makeStyles<Theme>((theme) => {
             alignItems: 'center',
             flexDirection: 'column',
             top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: '#F2F2F2'
+            backgroundColor: '#fff'
         },
         paper: {
-            width: 350,
+            width: 400,
             borderRadius: 12,
             padding: 24
         }

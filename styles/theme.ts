@@ -3,8 +3,8 @@ import { createMuiTheme, fade } from "@material-ui/core";
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: '#1375BC',
-            light: fade('#1375BC', 0.3),
+            main: '#0069d9',
+            light: fade('#0069d9', 0.3),
             contrastText: "#fff",
         },
         secondary: {
@@ -38,13 +38,13 @@ const theme = createMuiTheme({
     typography: {
         fontFamily: 'lato',
         h1: {
-            fontSize: 96
-        },
-        h2: {
             fontSize: 60
         },
+        h2: {
+            fontSize: 52
+        },
         h3: {
-            fontSize: 48
+            fontSize: 42
         },
         h4: {
             fontSize: 24,

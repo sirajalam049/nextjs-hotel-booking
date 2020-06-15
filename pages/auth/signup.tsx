@@ -77,6 +77,7 @@ const Login: FC<LoginProps> = (props) => {
 
     return (
         <FormContainer>
+            <Box display='flex' justifyContent={'center'} mb={3} ><Typography variant={'h3'} >Sign Up</Typography></Box>
             <ReactForm formId="login-form"
                 config={CONFIG}
                 actionConfig={formActionConfig}
