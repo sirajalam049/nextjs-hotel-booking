@@ -6,7 +6,10 @@ export type LocalStorageVariable = 'access_token' | 'profile';
 // utils/AuthService.js
 export default class AuthService {
 
-    static signUp = async (data: { firstName: string, lastName: string, email: string, password: string }) => await localRequest({ url: '/users/signup', method: 'post', data });
+    static signUp = async (data: { firstName: string, lastName: string, email: string, password: string }) => {
+        await localRequest<User>({ url: '/users/signup', method: 'post', data }).catch(err => { throw err });
+        return await AuthService.login({ email: data.email, password: data.password });
+    }
 
     static login = async (data: { email: string, password: string }) => {
         const res = await externalRequest<{ id: string }>({ url: '/users/login', method: 'post', data }).catch(err => {

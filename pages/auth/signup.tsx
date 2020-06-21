@@ -8,6 +8,9 @@ import FormContainer from 'components/layout/FormContainer';
 import { Box, Typography, Button } from '@material-ui/core';
 import Link from 'next/link';
 import Header from 'features/Header';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import withNoAuth from 'features/auth/withNoAuth';
 
 const validationSchema = Yup.object({
     firstName: Yup.string().required('First name is required'),
@@ -16,7 +19,7 @@ const validationSchema = Yup.object({
     password: Yup.string().required('Password is required')
 })
 
-export interface LoginProps { }
+export interface SignUpProps { }
 
 const CONFIG: Array<Array<FormConfig> | FormConfig> = [
     {
@@ -66,14 +69,22 @@ const useFormActionConfig = () => {
     return config;
 }
 
-const Login: FC<LoginProps> = (props) => {
+const SignUp: FC<SignUpProps> = (props) => {
+
     const classes = useStyles();
+
     const formActionConfig = useFormActionConfig();
 
     const signUpTask = useAsyncTask(AuthService.signUp);
 
-    const handleSubmit = (data: { firstName: string, lastName: string, email: string, password: string }) => {
-        signUpTask.run(data);
+    const router = useRouter();
+
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (data: { firstName: string, lastName: string, email: string, password: string }) => {
+        const profile = await signUpTask.run(data);
+        dispatch({ type: "USER_RECEIVED", data: profile });
+        router.push(router.query.url as string || '/', router.query.asUrl as string);
     }
 
     return (
@@ -110,4 +121,4 @@ const useStyles = makeStyles<Theme>((theme) => {
     }))
 })
 
-export default Login
+export default withNoAuth(SignUp);

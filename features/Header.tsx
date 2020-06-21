@@ -38,7 +38,7 @@ const Header: FC<HeaderProps> = (props) => {
                             <>
                                 <Link href={{ pathname: '/auth/login', query: { url: router.pathname, asUrl: router.asPath } }} ><a><Typography color={'primary'} >Login</Typography></a></Link>
                                 <Box mx={1} />
-                                <Link href={'/auth/signup'} ><a><Typography color={'primary'} >Sign Up</Typography></a></Link>
+                                <Link href={{ pathname: '/auth/signup', query: { url: router.pathname, asUrl: router.asPath } }} ><a><Typography color={'primary'} >Sign Up</Typography></a></Link>
                             </>
                     }
                 </Toolbar>
