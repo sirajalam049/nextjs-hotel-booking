@@ -7,6 +7,8 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import RootReducer from 'store';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DayjsUtils from '@date-io/dayjs';
 
 const rxStore = createStore(
     RootReducer,
@@ -17,10 +19,12 @@ export default function app(props: AppPropsType) {
     const { Component, pageProps } = props;
 
     return (
-        <Provider store={rxStore} >
-            <MuiThemeProvider theme={theme} >
-                <Component {...pageProps} />
-            </MuiThemeProvider>
-        </Provider>
+        <MuiThemeProvider theme={theme} >
+            <Provider store={rxStore} >
+                <MuiPickersUtilsProvider utils={DayjsUtils} >
+                    <Component {...pageProps} />
+                </MuiPickersUtilsProvider>
+            </Provider>
+        </MuiThemeProvider>
     )
 }
