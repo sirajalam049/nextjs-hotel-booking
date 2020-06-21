@@ -1,13 +1,16 @@
+import { Box, Button, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import FormContainer from 'components/layout/FormContainer';
+import withNoAuth from 'features/auth/withNoAuth';
+import Header from 'features/Header';
 import useAsyncTask from 'hooks/useAsyncTask';
 import AuthService from 'models/auth';
-import React, { FC } from 'react';
+import Link from 'next/link';
+import React, { FC, useEffect } from 'react';
 import { FormConfig, IFormActionProps, ReactForm } from 'react-forms';
 import * as Yup from 'yup';
-import { Box, Typography, Button } from '@material-ui/core';
-import Link from 'next/link';
-import Header from 'features/Header';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 
 const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -47,12 +50,19 @@ const useFormActionConfig = () => {
 
 const Login: FC<LoginProps> = (props) => {
     const classes = useStyles();
+
+    const router = useRouter();
+
+    const dispatch = useDispatch();
+
     const formActionConfig = useFormActionConfig();
 
     const loginTask = useAsyncTask(AuthService.login);
 
-    const handleSubmit = (data: { email: string, password: string }) => {
-        loginTask.run(data);
+    const handleSubmit = async (data: { email: string, password: string }) => {
+        const profile = await loginTask.run(data).catch(err => { throw err });
+        dispatch({ type: "USER_RECEIVED", data: profile });
+        router.push(router.query.url as string || '/', router.query.asUrl as string);
     }
 
     return (
@@ -89,4 +99,4 @@ const useStyles = makeStyles<Theme>((theme) => {
     }))
 })
 
-export default Login
+export default withNoAuth(Login);

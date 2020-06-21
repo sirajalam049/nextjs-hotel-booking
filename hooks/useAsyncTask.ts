@@ -1,17 +1,16 @@
 import { useState } from 'react';
 
 type TStatus = 'IDEAL' | 'PROCESSING' | 'ERROR' | 'SUCCESS';
-function useAsyncTask<T>(task: (arg: T) => Promise<any>) {
+function useAsyncTask<T extends any[], R>(task: (...args: T) => Promise<R>) {
 
     const [status, setStatus] = useState<TStatus>('IDEAL');
     const [message, setMessage] = useState('');
-    const run = async (arg: T) => {
+    const run = async (...arg: T) => {
         setStatus('PROCESSING');
         //let resp;
         try {
-            const resp: any = await task(arg);
+            const resp: R = await task(...arg);
             setStatus('SUCCESS');
-            setMessage(resp?.message || '');
             return resp;
         } catch (error) {
             let message = error?.response?.data?.error?.message || error.message;

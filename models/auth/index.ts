@@ -1,91 +1,58 @@
-import { request } from "resources/utils"
+import { externalAxios, externalRequest, localAxios, localRequest } from "resources/utils";
+import { User } from "models/user/@types";
+
+export type LocalStorageVariable = 'access_token' | 'profile';
 
 // utils/AuthService.js
 export default class AuthService {
 
-    static signUp = async (data: { firstName: string, lastName: string, email: string, password: string }) => await request({ url: '/users/signup', method: 'post', data });
+    static signUp = async (data: { firstName: string, lastName: string, email: string, password: string }) => await localRequest({ url: '/users/signup', method: 'post', data });
 
-    static login = async (data: { email: string, password: string }) => await request({ url: '/users/login', method: 'post', data });
+    static login = async (data: { email: string, password: string }) => {
+        const res = await externalRequest<{ id: string }>({ url: '/users/login', method: 'post', data }).catch(err => {
+            throw err;
+        });
+        AuthService.setToken(res.id);
+        const profile = await externalRequest<User>({ url: '/users/me' }).catch(err => { throw err });
+        localStorage.setItem('profile', JSON.stringify(profile));
+        return profile;
+    }
 
-    // static login(email: string, password: string) {
-    //     // Get a token
-    //     return this.fetch(`${this.domain}/token`, {
-    //         method: 'POST',
-    //         body: JSON.stringify({
-    //             email,
-    //             password
-    //         })
-    //     }).then(res => {
-    //         this.setToken(res.id_token)
-    //         return this.fetch(`${this.domain}/user`, {
-    //             method: 'GET'
-    //         })
-    //     }).then(res => {
-    //         this.setProfile(res)
-    //         return Promise.resolve(res)
-    //     })
+    static getToken = () => localStorage.getItem('access_token');
+
+    static getProfile = (): User | undefined => {
+        let profile = localStorage.getItem('profile');
+        if (profile) return JSON.parse(profile);
+        else return;
+    }
+
+    static logout = () => {
+        // Clear user token and profile data from localStorage
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('profile');
+    }
+
+    static setToken = (token: string) => {
+        externalAxios.defaults.headers.common['Authorization'] = token
+        localAxios.defaults.headers.common['Authorization'] = token;
+        localStorage.setItem('access_token', token);
+    }
+
+    static loggedIn = () => {
+        // Checks if there is a saved token and it's still valid
+        const token = AuthService.getToken();
+        if (!token) return false;
+        else {
+            AuthService.setToken(token);
+            return true;
+        }
+        // const isExpired = await AuthService.isTokenExpired(token).catch(err => { });
+        // return !!isExpired;
+    }
+
+    // static isTokenExpired = async (token: string): Promise<boolean> => {
+    //     const res = await externalRequest({ url: 'users/me' }).catch(err => { });
+    //     return res ? false : true;
     // }
 
-    // static staticloggedIn() {
-    //     // Checks if there is a saved token and it's still valid
-    //     const token = this.getToken()
-    //     return !!token && !isTokenExpired(token) // handwaiving here
-    // }
-
-    // static setProfile(profile) {
-    //     // Saves profile data to localStorage
-    //     localStorage.setItem('profile', JSON.stringify(profile))
-    // }
-
-    // static getProfile() {
-    //     // Retrieves the profile data from localStorage
-    //     const profile = localStorage.getItem('profile')
-    //     return profile ? JSON.parse(localStorage.profile) : {}
-    // }
-
-    // static setToken(idToken) {
-    //     // Saves user token to localStorage
-    //     localStorage.setItem('id_token', idToken)
-    // }
-
-    // static getToken() {
-    //     // Retrieves the user token from localStorage
-    //     return localStorage.getItem('id_token')
-    // }
-
-    // static logout() {
-    //     // Clear user token and profile data from localStorage
-    //     localStorage.removeItem('id_token');
-    //     localStorage.removeItem('profile');
-    // }
-
-    // _checkStatus(response) {
-    //     // raises an error in case response status is not a success
-    //     if (response.status >= 200 && response.status < 300) {
-    //         return response
-    //     } else {
-    //         var error = new Error(response.statusText)
-    //         error.response = response
-    //         throw error
-    //     }
-    // }
-
-    // fetch(url, options) {
-    //     // performs api calls sending the required authentication headers
-    //     const headers = {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //     }
-
-    //     if (this.loggedIn()) {
-    //         headers['Authorization'] = 'Bearer ' + this.getToken()
-    //     }
-
-    //     return fetch(url, {
-    //         headers,
-    //         ...options
-    //     })
-    //         .then(this._checkStatus)
-    //         .then(response => response.json())
-    // }
 }
