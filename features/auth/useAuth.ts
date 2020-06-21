@@ -1,6 +1,6 @@
 import AuthService from "models/auth";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, batch } from "react-redux";
 import { ReduxStore } from "store";
 import { UserReducer } from "store/user";
 
@@ -19,7 +19,10 @@ const useAuth = () => {
 
     const logout = () => {
         AuthService.logout();
-        dispatch({ type: 'USER_RECEIVED', data: undefined });
+        batch(() => {
+            dispatch({ type: 'USER_RECEIVED', data: undefined });
+            dispatch({ type: "BOOKINGS_RECEIVED", data: [] });
+        })
     }
 
     useEffect(setProfile, []);

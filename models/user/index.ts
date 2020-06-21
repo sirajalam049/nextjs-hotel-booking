@@ -8,6 +8,8 @@ class UserModel {
 
     static getUserCurrentHotelBookingDraft = async ({ hotelId, userId }: { userId: string, hotelId: string }) => externalRequest<Booking>({ url: `bookings/findOne`, params: { filter: { where: { userId, hotelId } } } });
 
+    static getAllBookings = async (userId: string) => await externalRequest<Booking>({ url: `users/${userId}/bookings`, });
+
 }
 
 export default UserModel;

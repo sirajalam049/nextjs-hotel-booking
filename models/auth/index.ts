@@ -15,7 +15,11 @@ export default class AuthService {
         const res = await externalRequest<{ id: string }>({ url: '/users/login', method: 'post', data }).catch(err => {
             throw err;
         });
-        AuthService.setToken(res.id);
+        return await AuthService.loadUser(res.id);
+    }
+
+    static loadUser = async (token: string) => {
+        AuthService.setToken(token);
         const profile = await externalRequest<User>({ url: '/users/me' }).catch(err => { throw err });
         localStorage.setItem('profile', JSON.stringify(profile));
         return profile;
