@@ -29,7 +29,7 @@ const useAuth = () => {
         AuthService.logout();
         batch(() => {
             dispatch({ type: 'USER_RECEIVED', data: undefined });
-            dispatch({ type: "BOOKINGS_RECEIVED", data: [] });
+            dispatch({ type: "BOOKINGS_RECEIVED", data: undefined });
         })
     }
 
@@ -38,7 +38,7 @@ const useAuth = () => {
     useEffect(() => {
         window.addEventListener('storage', setProfile);
         return () => window.removeEventListener('storage', setProfile);
-    }, []);
+    }, [profile]);
 
     return { profile, setProfile, logout };
 
