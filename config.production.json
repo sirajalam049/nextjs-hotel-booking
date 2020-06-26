@@ -1,7 +1,7 @@
 {
     "env": "production",
-    "LOCAL_BASE_URL": "http://api.delhians.com",
-    "LOCAL_API_URL": "http://api.delhians.com/api",
-    "EXTERNAL_BASE_URL": "http://api.delhians.com",
-    "EXTERNAL_API_URL": "http://api.delhians.com/api"
+    "LOCAL_BASE_URL": "https://api.delhians.com",
+    "LOCAL_API_URL": "https://api.delhians.com/api",
+    "EXTERNAL_BASE_URL": "https://api.delhians.com",
+    "EXTERNAL_API_URL": "https://api.delhians.com/api"
 }
