@@ -1,5 +1,7 @@
 {
     "env": "production",
-    "BASE_URL": "http://localhost:3003",
-    "API_URL": "http://localhost:3003/api"
+    "LOCAL_BASE_URL": "http://api.delhians.com",
+    "LOCAL_API_URL": "http://api.delhians.com/api",
+    "EXTERNAL_BASE_URL": "http://api.delhians.com",
+    "EXTERNAL_API_URL": "http://api.delhians.com/api"
 }
