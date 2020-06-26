@@ -56,7 +56,7 @@ const Header: FC<HeaderProps> = (props) => {
                             <>
                                 <Link href={'#'} ><a><Typography color={'primary'} >{`Drafts (${drafts})`}</Typography></a></Link>
                                 <Box mx={1}>|</Box>
-                                <Link href={'#'} ><a><Typography color={'primary'} >{`Bookings (${bookingCount})`}</Typography></a></Link>
+                                <Link href={'/bookings'} ><a><Typography color={'primary'} >{`Bookings (${bookingCount})`}</Typography></a></Link>
                                 <Box mx={1}>|</Box>
                                 <Link href={'#'} ><a><Typography onClick={handleClick} color={'primary'} >{'Logout'}</Typography></a></Link>
                             </>
