@@ -19,7 +19,7 @@ const Header: FC<HeaderProps> = (props) => {
 
     const { profile, logout } = useAuth();
 
-    const { bookings = [] } = useSelector<ReduxStore, Pick<UserReducer, 'bookings'>>(({ User: { bookings } }) => ({ bookings }));
+    const { bookings } = useSelector<ReduxStore, Pick<UserReducer, 'bookings'>>(({ User: { bookings } }) => ({ bookings }));
 
     const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const Header: FC<HeaderProps> = (props) => {
     }
 
     useEffect(() => {
-        if (profile?.id && bookings.length === 0) {
+        if (profile?.id && !bookings) {
             getBookings(profile.id);
         }
     }, [profile])

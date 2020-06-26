@@ -17,6 +17,14 @@ const useAuth = () => {
         }
     }
 
+    const init = () => {
+        const token = AuthService.getToken();
+        if (token) {
+            AuthService.setToken(token);
+            setProfile();
+        }
+    }
+
     const logout = () => {
         AuthService.logout();
         batch(() => {
@@ -25,7 +33,7 @@ const useAuth = () => {
         })
     }
 
-    useEffect(setProfile, []);
+    useEffect(init, []);
 
     useEffect(() => {
         window.addEventListener('storage', setProfile);
