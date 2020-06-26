@@ -6,6 +6,7 @@ import { UserReducer } from 'store/user';
 import { useSelector } from 'react-redux';
 import Header from 'features/Header';
 import BookingCard from 'features/booking/BookingCard';
+import withAuth from 'features/auth/withAuth';
 
 export interface DraftsProps { }
 
@@ -41,4 +42,4 @@ const useStyles = makeStyles<Theme>((theme) => {
     }))
 })
 
-export default Drafts
+export default withAuth(Drafts)
