@@ -10,7 +10,7 @@ import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded';
 import { Formik, FormikProps } from 'formik';
 import { IReactFormProps, MLFormContent } from 'react-forms';
 import { DatePickerProps } from '@material-ui/pickers';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ReduxStore } from 'store';
 import { UserReducer } from 'store/user';
 import BookingModel from 'models/booking/mode';
@@ -60,6 +60,8 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
     const { hotel } = props;
     const { user } = useSelector<ReduxStore, Pick<UserReducer, 'user'>>(({ User: { user } }) => ({ user }));
 
+    const dispatch = useDispatch();
+
     const [draftBooking, setDraftBooking] = useState<Partial<Booking>>();
 
     const createBookingTask = useAsyncTask(BookingModel.createBooking);
@@ -70,14 +72,18 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
 
     const handleBook = async (formikProps: FormikProps<Partial<Booking>>) => {
         const createdBooking = await createBookingTask.run({ ...formikProps.values, userId: user?.id, hotelId: hotel.id }).catch(err => { });
-        if (createdBooking)
+        if (createdBooking) {
+            dispatch({ type: "PUT_BOOKING", data: createdBooking });
             setDraftBooking(createdBooking)
+        }
     }
 
     const handleSave = async (formikProps: FormikProps<Partial<Booking>>) => {
         const createdBooking = await saveToDraftTask.run({ ...formikProps.values, userId: user?.id, hotelId: hotel.id }).catch(err => { });
-        if (createdBooking)
+        if (createdBooking) {
+            dispatch({ type: "PUT_BOOKING", data: createdBooking });
             setDraftBooking(createdBooking)
+        }
     }
 
 
