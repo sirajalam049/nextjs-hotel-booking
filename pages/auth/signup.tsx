@@ -1,18 +1,25 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React, { FC } from 'react';
-import { IFormActionProps, ReactForm, FormConfig } from 'react-forms';
 import * as Yup from 'yup';
 import useAsyncTask from 'hooks/useAsyncTask';
 import AuthService from 'models/auth';
 import FormContainer from 'components/layout/FormContainer';
-import { Box, Typography, Button } from '@material-ui/core';
+import { Box, Typography, Button, TextField, TextFieldProps, CircularProgress } from '@material-ui/core';
 import Link from 'next/link';
 import Header from 'features/Header';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import withNoAuth from 'features/auth/withNoAuth';
+import { Formik } from 'formik';
 
-const validationSchema = Yup.object({
+interface SignUpForm {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+}
+
+const validationSchema = Yup.object<SignUpForm>({
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('Last name is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -21,7 +28,7 @@ const validationSchema = Yup.object({
 
 export interface SignUpProps { }
 
-const CONFIG: Array<Array<FormConfig> | FormConfig> = [
+const CONFIG: { type: string, valueKey: keyof SignUpForm, fieldProps: TextFieldProps }[] = [
     {
         type: 'text',
         valueKey: 'firstName',
@@ -56,24 +63,9 @@ const CONFIG: Array<Array<FormConfig> | FormConfig> = [
     }
 ];
 
-const useFormActionConfig = () => {
-    const classes = useStyles();
-    const config: IFormActionProps = {
-        submitButtonText: 'Submit',
-        submitButtonLayout: 'fullWidth',
-        submitButtonProps: {
-            size: 'large'
-        },
-        containerClassNames: classes.buttonContainer
-    };
-    return config;
-}
-
 const SignUp: FC<SignUpProps> = (props) => {
 
     const classes = useStyles();
-
-    const formActionConfig = useFormActionConfig();
 
     const signUpTask = useAsyncTask(AuthService.signUp);
 
@@ -92,16 +84,36 @@ const SignUp: FC<SignUpProps> = (props) => {
             <Header />
             <FormContainer>
                 <Box display='flex' justifyContent={'center'} mb={3} ><Typography variant={'h3'} >Sign Up</Typography></Box>
-                <ReactForm formId="login-form"
-                    config={CONFIG}
-                    actionConfig={formActionConfig}
-                    onSubmit={handleSubmit}
+                <Formik<SignUpForm>
+                    initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
                     validationSchema={validationSchema}
-                    formSettings={{
-                        verticalSpacing: 36
-                    }}
-                    isInProgress={signUpTask.status === 'PROCESSING'}
-                />
+                    onSubmit={handleSubmit}
+                >
+                    {
+                        formikProps => (
+                            <div className={classes.form} >
+                                {
+                                    CONFIG.map((c) => {
+                                        return (
+                                            <TextField
+                                                type={c.type}
+                                                name={c.valueKey}
+                                                value={formikProps.values[c.valueKey]}
+                                                onChange={formikProps.handleChange}
+                                                error={!!formikProps.errors[c.valueKey]}
+                                                helperText={formikProps.errors[c.valueKey]}
+                                                {...c.fieldProps}
+                                            />
+                                        )
+                                    })
+                                }
+                                <Button onClick={formikProps.submitForm} disabled={signUpTask.status === 'PROCESSING'} variant={'contained'} color={'primary'} disableElevation fullWidth>
+                                    {signUpTask.status === 'PROCESSING' ? <CircularProgress size={24} /> : 'SUBMIT'}
+                                </Button>
+                            </div>
+                        )
+                    }
+                </Formik>
                 <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} mt={1.5} >
                     <Typography variant={'caption'} >Already registered?</Typography>
                     <Link href={'/auth/login'} >
@@ -115,6 +127,11 @@ const SignUp: FC<SignUpProps> = (props) => {
 
 const useStyles = makeStyles<Theme>((theme) => {
     return (createStyles({
+        form: {
+            '& > div': {
+                marginBottom: 36
+            }
+        },
         buttonContainer: {
             marginTop: 10
         }

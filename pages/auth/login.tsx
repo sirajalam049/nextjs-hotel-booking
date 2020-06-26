@@ -1,16 +1,16 @@
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, TextField, Typography, CircularProgress } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import FormContainer from 'components/layout/FormContainer';
 import withNoAuth from 'features/auth/withNoAuth';
 import Header from 'features/Header';
+import { Formik } from 'formik';
 import useAsyncTask from 'hooks/useAsyncTask';
 import AuthService from 'models/auth';
 import Link from 'next/link';
-import React, { FC, useEffect } from 'react';
-import { FormConfig, IFormActionProps, ReactForm } from 'react-forms';
-import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
 
 const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -19,34 +19,7 @@ const validationSchema = Yup.object({
 
 export interface LoginProps { }
 
-const CONFIG: Array<Array<FormConfig> | FormConfig> = [{
-    type: 'text',
-    valueKey: 'email',
-    fieldProps: {
-        label: 'Email',
-        fullWidth: true
-    }
-}, {
-    type: 'password',
-    valueKey: 'password',
-    fieldProps: {
-        label: 'Password',
-        fullWidth: true
-    }
-}];
 
-const useFormActionConfig = () => {
-    const classes = useStyles();
-    const config: IFormActionProps = {
-        submitButtonText: 'Submit',
-        submitButtonLayout: 'fullWidth',
-        submitButtonProps: {
-            size: 'large'
-        },
-        containerClassNames: classes.buttonContainer
-    };
-    return config;
-}
 
 const Login: FC<LoginProps> = (props) => {
     const classes = useStyles();
@@ -54,8 +27,6 @@ const Login: FC<LoginProps> = (props) => {
     const router = useRouter();
 
     const dispatch = useDispatch();
-
-    const formActionConfig = useFormActionConfig();
 
     const loginTask = useAsyncTask(AuthService.login);
 
@@ -70,16 +41,36 @@ const Login: FC<LoginProps> = (props) => {
             <Header />
             <FormContainer>
                 <Box display='flex' justifyContent={'center'} mb={3} ><Typography variant={'h3'} >Login</Typography></Box>
-                <ReactForm formId="login-form"
-                    config={CONFIG}
-                    actionConfig={formActionConfig}
+                <Formik
+                    initialValues={{ email: '', password: '' }}
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
-                    formSettings={{
-                        verticalSpacing: 36,
-                    }}
-                    isInProgress={loginTask.status === 'PROCESSING'}
-                />
+                >
+                    {
+                        formikProps => (
+                            <div className={classes.form} >
+                                <TextField
+                                    name={'email'}
+                                    label={'Email'}
+                                    value={formikProps.values.email}
+                                    onChange={formikProps.handleChange}
+                                    fullWidth
+                                />
+                                <TextField
+                                    name={'password'}
+                                    label={'Password'}
+                                    value={formikProps.values.password}
+                                    onChange={formikProps.handleChange}
+                                    type={'password'}
+                                    fullWidth
+                                />
+                                <Button onClick={formikProps.submitForm} disabled={loginTask.status === 'PROCESSING'} variant={'contained'} color={'primary'} disableElevation fullWidth>
+                                    {loginTask.status === 'PROCESSING' ? <CircularProgress size={24} /> : 'SUBMIT'}
+                                </Button>
+                            </div>
+                        )
+                    }
+                </Formik>
                 <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} mt={1.5} >
                     <Typography variant={'caption'} >Not registered?</Typography>
                     <Link href={'/auth/signup'} >
@@ -93,6 +84,11 @@ const Login: FC<LoginProps> = (props) => {
 
 const useStyles = makeStyles<Theme>((theme) => {
     return (createStyles({
+        form: {
+            '& > div': {
+                marginBottom: 36
+            }
+        },
         buttonContainer: {
             marginTop: 10
         }

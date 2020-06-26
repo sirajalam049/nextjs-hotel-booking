@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Box, Typography, Container, Paper, TextFieldProps, Button, CircularProgress } from '@material-ui/core'
+import { Box, Typography, Container, Paper, TextFieldProps, Button, CircularProgress, TextField } from '@material-ui/core'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Hotel } from 'models/hotel/@types';
@@ -8,8 +8,7 @@ import Header from 'features/Header';
 import CallRoundedIcon from '@material-ui/icons/CallRounded';
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded';
 import { Formik, FormikProps } from 'formik';
-import { IReactFormProps, MLFormContent } from 'react-forms';
-import { DatePickerProps } from '@material-ui/pickers';
+import { DatePickerProps, DatePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import { useSelector, useDispatch } from 'react-redux';
 import { ReduxStore } from 'store';
 import { UserReducer } from 'store/user';
@@ -24,7 +23,7 @@ import dayjs from 'dayjs';
 
 export interface HotelDetailsProps { hotel: Hotel; }
 
-const formConfig: IReactFormProps['config'] = [
+const formConfig: { type: 'date-picker' | 'text', valueKey: keyof Booking, fieldProps: Record<string, any> }[] = [
     {
         type: 'date-picker',
         valueKey: 'date',
@@ -98,6 +97,8 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
         }
     }, [user]);
 
+
+
     const loading = createBookingTask.status === 'PROCESSING' || saveToDraftTask.status === 'PROCESSING'
 
     return (
@@ -135,20 +136,53 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
                                             >
                                                 {
                                                     formikProps => {
+
+                                                        const handleDateChange = (date: any | null, name: keyof Booking) => {
+                                                            if (!date) {
+                                                                formikProps.setFieldValue(name, date, false);
+                                                                return;
+                                                            }
+                                                            const dateValue = date.format('MM/DD/YYYY');
+                                                            formikProps.setFieldValue(name, dateValue, false);
+                                                        };
+
                                                         return (
-                                                            <>
-                                                                <MLFormContent
-                                                                    formId={'booking-form'}
-                                                                    schema={formConfig}
-                                                                    formikProps={formikProps}
-                                                                    settings={{ verticalSpacing: 24 }}
-                                                                />
+                                                            <div className={classes.form} >
+                                                                {
+                                                                    formConfig.map((c) => {
+                                                                        if (c.type === 'date-picker') {
+                                                                            return (
+                                                                                <KeyboardDatePicker
+                                                                                    name={c.valueKey}
+                                                                                    value={formikProps.values[c.valueKey] as string}
+                                                                                    onChange={date => handleDateChange(date, c.valueKey)}
+                                                                                    error={!!formikProps.errors[c.valueKey]}
+                                                                                    helperText={formikProps.errors[c.valueKey]}
+                                                                                    {...c.fieldProps}
+                                                                                />
+                                                                            )
+                                                                        }
+                                                                        else {
+                                                                            return (
+                                                                                <TextField
+                                                                                    name={c.valueKey}
+                                                                                    value={formikProps.values[c.valueKey] as string}
+                                                                                    onChange={formikProps.handleChange}
+                                                                                    error={!!formikProps.errors[c.valueKey]}
+                                                                                    helperText={formikProps.errors[c.valueKey]}
+                                                                                    {...c.fieldProps}
+                                                                                />
+                                                                            )
+                                                                        }
+                                                                    })
+                                                                }
+
                                                                 <Box display={'flex'} mt={3} >
                                                                     <Button color={'primary'} variant={'contained'} onClick={() => handleBook(formikProps)} disabled={loading} >Book Now</Button>
                                                                     <Box mx={0.5} />
                                                                     <Button color={'secondary'} variant={'contained'} onClick={() => handleSave(formikProps)} disabled={loading} >Safe To Draft</Button>
                                                                 </Box>
-                                                            </>
+                                                            </div>
                                                         )
                                                     }
                                                 }
@@ -198,6 +232,11 @@ const useStyles = makeStyles<Theme, HotelDetailsProps>((theme) => {
             position: 'sticky',
             padding: 24,
             width: 400
+        },
+        form: {
+            '& > div': {
+                marginBottom: 24
+            }
         }
     }))
 });
