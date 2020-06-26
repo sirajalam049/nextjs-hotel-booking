@@ -9,6 +9,14 @@ import RootReducer from 'store';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DayjsUtils from '@date-io/dayjs';
+import NProgress from 'nprogress'; //nprogress module
+import 'nprogress/nprogress.css'; //styles of nprogress
+import Router from 'next/router';
+import 'styles/nsprogress-styles.css';
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 const rxStore = createStore(
     RootReducer,

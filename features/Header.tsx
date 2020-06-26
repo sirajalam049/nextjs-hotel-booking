@@ -54,7 +54,7 @@ const Header: FC<HeaderProps> = (props) => {
                     {
                         profile ?
                             <>
-                                <Link href={'#'} ><a><Typography color={'primary'} >{`Drafts (${drafts})`}</Typography></a></Link>
+                                <Link href={'/drafts'} ><a><Typography color={'primary'} >{`Drafts (${drafts})`}</Typography></a></Link>
                                 <Box mx={1}>|</Box>
                                 <Link href={'/bookings'} ><a><Typography color={'primary'} >{`Bookings (${bookingCount})`}</Typography></a></Link>
                                 <Box mx={1}>|</Box>

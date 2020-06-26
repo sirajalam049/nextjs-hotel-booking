@@ -73,7 +73,7 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
     const handleBook = async (formikProps: FormikProps<Partial<Booking>>) => {
         const createdBooking = await createBookingTask.run({ ...formikProps.values, userId: user?.id, hotelId: hotel.id }).catch(err => { });
         if (createdBooking) {
-            dispatch({ type: "PUT_BOOKING", data: createdBooking });
+            dispatch({ type: "PUT_BOOKING", data: { ...createdBooking, hotel } });
             setDraftBooking(createdBooking)
         }
     }
@@ -81,7 +81,7 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
     const handleSave = async (formikProps: FormikProps<Partial<Booking>>) => {
         const createdBooking = await saveToDraftTask.run({ ...formikProps.values, userId: user?.id, hotelId: hotel.id }).catch(err => { });
         if (createdBooking) {
-            dispatch({ type: "PUT_BOOKING", data: createdBooking });
+            dispatch({ type: "PUT_BOOKING", data: { ...createdBooking, hotel } });
             setDraftBooking(createdBooking)
         }
     }
