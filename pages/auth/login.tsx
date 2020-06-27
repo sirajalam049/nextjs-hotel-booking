@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import Head from 'next/document';
+import Head from 'next/head';
 
 const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email').required('Email is required'),

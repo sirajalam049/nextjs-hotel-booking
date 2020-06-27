@@ -21,7 +21,7 @@ import { useRouter } from 'next/router';
 import { User } from 'models/user/@types';
 import useAsyncTask from 'hooks/useAsyncTask';
 import dayjs from 'dayjs';
-import Head from 'next/document';
+import Head from 'next/head';
 
 export interface HotelDetailsProps { hotel: Hotel; }
 

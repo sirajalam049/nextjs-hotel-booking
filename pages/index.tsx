@@ -6,8 +6,8 @@ import HotelModel from 'models/hotel';
 import { Hotel } from 'models/hotel/@types';
 import { GetStaticProps } from 'next';
 import React, { FC } from 'react';
-import Head from 'next/document';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 export interface HomeProps {
 	hotels: Hotel[];

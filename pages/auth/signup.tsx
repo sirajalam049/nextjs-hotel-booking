@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import withNoAuth from 'features/auth/withNoAuth';
 import { Formik } from 'formik';
-import Head from 'next/document';
+import Head from 'next/head';
 
 interface SignUpForm {
     firstName: string;
