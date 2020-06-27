@@ -99,9 +99,9 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
         }
     }, [user]);
 
-
-
     const loading = createBookingTask.status === 'PROCESSING' || saveToDraftTask.status === 'PROCESSING'
+
+    console.log({ router });
 
     return (
         <>
@@ -110,7 +110,7 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
                 <meta name="description" content={hotel.about} />
                 <meta name="og:title" content={hotel.name} />
                 <meta name="og:description" content={hotel.about} />
-                <meta name="og:url" content={router.pathname} />
+                <meta name="og:url" content={router.asPath} />
                 <meta name="og:image" content={hotel.thumbnail} />
                 <meta name="og:type" content="article" />
                 <meta property="article:author" content="Siraj Alam" />
