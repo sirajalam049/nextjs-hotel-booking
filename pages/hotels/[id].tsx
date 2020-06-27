@@ -1,27 +1,27 @@
-import React, { FC, useEffect, useState } from 'react'
-import { Typography, Container, Paper, TextFieldProps, Button, CircularProgress, TextField } from '@material-ui/core';
+import { Button, CircularProgress, Container, Paper, TextField, TextFieldProps, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { Hotel } from 'models/hotel/@types';
-import HotelModel from 'models/hotel';
-import Header from 'features/Header';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CallRoundedIcon from '@material-ui/icons/CallRounded';
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded';
+import { DatePickerProps, KeyboardDatePicker } from '@material-ui/pickers';
+import dayjs from 'dayjs';
+import Header from 'features/Header';
 import { Formik, FormikProps } from 'formik';
-import { DatePickerProps, DatePicker, KeyboardDatePicker } from '@material-ui/pickers';
-import { useSelector, useDispatch } from 'react-redux';
+import useAsyncTask from 'hooks/useAsyncTask';
+import { Booking } from 'models/booking/@types';
+import BookingModel from 'models/booking/mode';
+import HotelModel from 'models/hotel';
+import { Hotel } from 'models/hotel/@types';
+import UserModel from 'models/user';
+import { User } from 'models/user/@types';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { FC, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ReduxStore } from 'store';
 import { UserReducer } from 'store/user';
-import BookingModel from 'models/booking/mode';
-import UserModel from 'models/user';
-import { Booking } from 'models/booking/@types';
-import Link from 'next/link';
-import { useRouter, Router } from 'next/router';
-import { User } from 'models/user/@types';
-import useAsyncTask from 'hooks/useAsyncTask';
-import dayjs from 'dayjs';
-import Head from 'next/head';
 
 export interface HotelDetailsProps { hotel: Hotel; }
 
@@ -101,22 +101,20 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
 
     const loading = createBookingTask.status === 'PROCESSING' || saveToDraftTask.status === 'PROCESSING'
 
-    console.log({ router });
-
     return (
         <>
             <Head>
                 <title>{hotel.name}</title>
                 <meta name="description" content={hotel.about} />
-                <meta name="og:title" content={hotel.name} />
-                <meta name="og:description" content={hotel.about} />
-                <meta name="og:url" content={router.asPath} />
-                <meta name="og:image" content={hotel.thumbnail} />
-                <meta name="og:type" content="article" />
+                <meta property="og:title" content={hotel.name} />
+                <meta property="og:description" content={hotel.about} />
+                <meta property="og:url" content={`https://nextjs-hotel-booking.vercel.app${router.asPath}`} />
+                <meta property="og:image" content={hotel.thumbnail} />
+                <meta property="og:type" content="article" />
                 <meta property="article:author" content="Siraj Alam" />
                 <meta property="keywords" content="reactjs, javascript, foss, open-source, date-library, dayjs, momentJS" />
-                <meta property="article:published_time" content={hotel.created} />
-                <meta property="article:modified_time" content={hotel.updated} />
+                <meta name="article:published_time" content={hotel.created} />
+                <meta name="article:modified_time" content={hotel.updated} />
                 <meta property="og:locale" content="en_US" />
             </Head>
             <Header />
@@ -257,7 +255,7 @@ const useStyles = makeStyles<Theme, HotelDetailsProps>((theme) => {
     }))
 });
 
-export const getStaticProps: GetStaticProps<HotelDetailsProps, { id: string }> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Pick<HotelDetailsProps, 'hotel'>, { id: string }> = async ({ params }) => {
 
     const id = params?.id;
 
