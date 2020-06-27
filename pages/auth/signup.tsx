@@ -84,11 +84,10 @@ const SignUp: FC<SignUpProps> = (props) => {
         <>
             <Head>
                 <title>Sign Up - NextJS</title>
-                <title>Hotel Bookings - NextJS</title>
                 <meta name="description" content={"Sign Up in Hotel Booking application on nextJS"} />
                 <meta name="og:title" content="Sign Up - NextJS" />
                 <meta name="og:description" content={"Sign Up in Hotel Booking application on nextJS"} />
-                <meta name="og:url" content={router.route} />
+                <meta name="og:url" content={router.pathname} />
                 <meta name="og:image" content={"https://i.ytimg.com/vi/Fnw3lNeH-XI/maxresdefault.jpg"} />
                 <meta name="og:type" content="article" />
                 <meta property="article:author" content="Siraj Alam" />

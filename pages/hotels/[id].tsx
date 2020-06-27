@@ -17,7 +17,7 @@ import BookingModel from 'models/booking/mode';
 import UserModel from 'models/user';
 import { Booking } from 'models/booking/@types';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter, Router } from 'next/router';
 import { User } from 'models/user/@types';
 import useAsyncTask from 'hooks/useAsyncTask';
 import dayjs from 'dayjs';
@@ -110,7 +110,7 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
                 <meta name="description" content={hotel.about} />
                 <meta name="og:title" content={hotel.name} />
                 <meta name="og:description" content={hotel.about} />
-                <meta name="og:url" content={router.route} />
+                <meta name="og:url" content={router.pathname} />
                 <meta name="og:image" content={hotel.thumbnail} />
                 <meta name="og:type" content="article" />
                 <meta property="article:author" content="Siraj Alam" />

@@ -24,7 +24,7 @@ const Home: FC<HomeProps> = (props) => {
 				<meta name="description" content={"Hotel Booking application on nextJS"} />
 				<meta name="og:title" content="Hotel Bookings - NextJS" />
 				<meta name="og:description" content={"Hotel Booking application on nextJS"} />
-				<meta name="og:url" content={router.route} />
+				<meta name="og:url" content={router.pathname} />
 				<meta name="og:image" content={"https://i.ytimg.com/vi/Fnw3lNeH-XI/maxresdefault.jpg"} />
 				<meta name="og:type" content="article" />
 				<meta property="article:author" content="Siraj Alam" />
