@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import { Head } from 'next/document';
 
 const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -38,6 +39,19 @@ const Login: FC<LoginProps> = (props) => {
 
     return (
         <>
+            <Head>
+                <title>Login - NextJS</title>
+                <title>Hotel Bookings - NextJS</title>
+                <meta name="description" content={"Login in Hotel Booking application on nextJS"} />
+                <meta name="og:title" content="Login - NextJS" />
+                <meta name="og:description" content={"Login in Hotel Booking application on nextJS"} />
+                <meta name="og:url" content={router.route} />
+                <meta name="og:image" content={"https://i.ytimg.com/vi/Fnw3lNeH-XI/maxresdefault.jpg"} />
+                <meta name="og:type" content="article" />
+                <meta property="article:author" content="Siraj Alam" />
+                <meta property="keywords" content="reactjs, javascript, foss, open-source, date-library, dayjs, momentJS" ></meta>
+                <meta property="og:locale" content="en_US" />
+            </Head>
             <Header />
             <FormContainer>
                 <Box display='flex' justifyContent={'center'} mb={3} ><Typography variant={'h3'} >Login</Typography></Box>

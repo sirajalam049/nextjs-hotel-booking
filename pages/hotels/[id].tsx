@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Box, Typography, Container, Paper, TextFieldProps, Button, CircularProgress, TextField } from '@material-ui/core'
+import { Typography, Container, Paper, TextFieldProps, Button, CircularProgress, TextField } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Hotel } from 'models/hotel/@types';
@@ -20,6 +21,7 @@ import { useRouter } from 'next/router';
 import { User } from 'models/user/@types';
 import useAsyncTask from 'hooks/useAsyncTask';
 import dayjs from 'dayjs';
+import { Head } from 'next/document';
 
 export interface HotelDetailsProps { hotel: Hotel; }
 
@@ -103,12 +105,26 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
 
     return (
         <>
+            <Head>
+                <title>{hotel.name}</title>
+                <meta name="description" content={hotel.about} />
+                <meta name="og:title" content={hotel.name} />
+                <meta name="og:description" content={hotel.about} />
+                <meta name="og:url" content={router.route} />
+                <meta name="og:image" content={hotel.thumbnail} />
+                <meta name="og:type" content="article" />
+                <meta property="article:author" content="Siraj Alam" />
+                <meta property="keywords" content="reactjs, javascript, foss, open-source, date-library, dayjs, momentJS" />
+                <meta property="article:published_time" content={hotel.created} />
+                <meta property="article:modified_time" content={hotel.updated} />
+                <meta property="og:locale" content="en_US" />
+            </Head>
             <Header />
             <div className={classes.coverContainer} >
             </div>
             <Container maxWidth={'lg'} >
                 <Box display={'flex'} alignItems={'flex-start'} >
-                    <Paper className={classes.paper} >
+                    <Paper className={classes.paper}>
                         <Typography variant='h1' >{hotel.name}</Typography>
                         <Box mt={1} ml={2} >
                             <Box className={classes.infoContainer}>

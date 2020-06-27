@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import withNoAuth from 'features/auth/withNoAuth';
 import { Formik } from 'formik';
+import { Head } from 'next/document';
 
 interface SignUpForm {
     firstName: string;
@@ -81,6 +82,19 @@ const SignUp: FC<SignUpProps> = (props) => {
 
     return (
         <>
+            <Head>
+                <title>Sign Up - NextJS</title>
+                <title>Hotel Bookings - NextJS</title>
+                <meta name="description" content={"Sign Up in Hotel Booking application on nextJS"} />
+                <meta name="og:title" content="Sign Up - NextJS" />
+                <meta name="og:description" content={"Sign Up in Hotel Booking application on nextJS"} />
+                <meta name="og:url" content={router.route} />
+                <meta name="og:image" content={"https://i.ytimg.com/vi/Fnw3lNeH-XI/maxresdefault.jpg"} />
+                <meta name="og:type" content="article" />
+                <meta property="article:author" content="Siraj Alam" />
+                <meta property="keywords" content="reactjs, javascript, foss, open-source, date-library, dayjs, momentJS" ></meta>
+                <meta property="og:locale" content="en_US" />
+            </Head>
             <Header />
             <FormContainer>
                 <Box display='flex' justifyContent={'center'} mb={3} ><Typography variant={'h3'} >Sign Up</Typography></Box>

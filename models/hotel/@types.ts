@@ -1,4 +1,6 @@
-export interface Hotel {
+import { TimeStamp } from "resources/globalTypes";
+
+export interface Hotel extends TimeStamp {
     id: string;
     name: string;
     location: string;

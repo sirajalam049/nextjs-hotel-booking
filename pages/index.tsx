@@ -6,6 +6,8 @@ import HotelModel from 'models/hotel';
 import { Hotel } from 'models/hotel/@types';
 import { GetStaticProps } from 'next';
 import React, { FC } from 'react';
+import { Head } from 'next/document';
+import { useRouter } from 'next/router';
 
 export interface HomeProps {
 	hotels: Hotel[];
@@ -14,8 +16,21 @@ export interface HomeProps {
 const Home: FC<HomeProps> = (props) => {
 	const classes = useStyles();
 	const { hotels } = props;
+	const router = useRouter();
 	return (
 		<>
+			<Head>
+				<title>Hotel Bookings - NextJS</title>
+				<meta name="description" content={"Hotel Booking application on nextJS"} />
+				<meta name="og:title" content="Hotel Bookings - NextJS" />
+				<meta name="og:description" content={"Hotel Booking application on nextJS"} />
+				<meta name="og:url" content={router.route} />
+				<meta name="og:image" content={"https://i.ytimg.com/vi/Fnw3lNeH-XI/maxresdefault.jpg"} />
+				<meta name="og:type" content="article" />
+				<meta property="article:author" content="Siraj Alam" />
+				<meta property="keywords" content="reactjs, javascript, foss, open-source, date-library, dayjs, momentJS" ></meta>
+				<meta property="og:locale" content="en_US" />
+			</Head>
 			<Header />
 			<Container maxWidth={'lg'} >
 				<div className={classes.root} >
