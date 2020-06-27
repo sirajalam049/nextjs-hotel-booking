@@ -1,13 +1,13 @@
 import { Box, Container, Grid, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Meta from 'components/Meta';
 import Header from 'features/Header';
 import HotelCard from 'features/hotel/HotelCard';
 import HotelModel from 'models/hotel';
 import { Hotel } from 'models/hotel/@types';
 import { GetStaticProps } from 'next';
-import React, { FC } from 'react';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
+import React, { FC } from 'react';
 
 export interface HomeProps {
 	hotels: Hotel[];
@@ -19,18 +19,10 @@ const Home: FC<HomeProps> = (props) => {
 	const router = useRouter();
 	return (
 		<>
-			<Head>
-				<title>Hotel Bookings - NextJS</title>
-				<meta name="description" content={"Hotel Booking application on nextJS"} />
-				<meta name="og:title" content="Hotel Bookings - NextJS" />
-				<meta name="og:description" content={"Hotel Booking application on nextJS"} />
-				<meta name="og:url" content={router.pathname} />
-				<meta name="og:image" content={"https://i.ytimg.com/vi/Fnw3lNeH-XI/maxresdefault.jpg"} />
-				<meta name="og:type" content="article" />
-				<meta property="article:author" content="Siraj Alam" />
-				<meta property="keywords" content="reactjs, javascript, foss, open-source, date-library, dayjs, momentJS" ></meta>
-				<meta property="og:locale" content="en_US" />
-			</Head>
+			<Meta
+				title={'Hotel Bookings - NextJS'}
+				description={'Hotel Booking application on nextJS'}
+			/>
 			<Header />
 			<Container maxWidth={'lg'} >
 				<div className={classes.root} >

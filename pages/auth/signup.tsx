@@ -1,17 +1,17 @@
+import { Box, Button, CircularProgress, TextField, TextFieldProps, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import React, { FC } from 'react';
-import * as Yup from 'yup';
+import FormContainer from 'components/layout/FormContainer';
+import Meta from 'components/Meta';
+import withNoAuth from 'features/auth/withNoAuth';
+import Header from 'features/Header';
+import { Formik } from 'formik';
 import useAsyncTask from 'hooks/useAsyncTask';
 import AuthService from 'models/auth';
-import FormContainer from 'components/layout/FormContainer';
-import { Box, Typography, Button, TextField, TextFieldProps, CircularProgress } from '@material-ui/core';
 import Link from 'next/link';
-import Header from 'features/Header';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import withNoAuth from 'features/auth/withNoAuth';
-import { Formik } from 'formik';
-import Head from 'next/head';
+import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
 
 interface SignUpForm {
     firstName: string;
@@ -82,18 +82,10 @@ const SignUp: FC<SignUpProps> = (props) => {
 
     return (
         <>
-            <Head>
-                <title>Sign Up - NextJS</title>
-                <meta name="description" content={"Sign Up in Hotel Booking application on nextJS"} />
-                <meta name="og:title" content="Sign Up - NextJS" />
-                <meta name="og:description" content={"Sign Up in Hotel Booking application on nextJS"} />
-                <meta name="og:url" content={router.pathname} />
-                <meta name="og:image" content={"https://i.ytimg.com/vi/Fnw3lNeH-XI/maxresdefault.jpg"} />
-                <meta name="og:type" content="article" />
-                <meta property="article:author" content="Siraj Alam" />
-                <meta property="keywords" content="reactjs, javascript, foss, open-source, date-library, dayjs, momentJS" ></meta>
-                <meta property="og:locale" content="en_US" />
-            </Head>
+            <Meta
+                title={'Sign Up - nextJS'}
+                description={'Sign Up in Hotel Booking application on nextJS'}
+            />
             <Header />
             <FormContainer>
                 <Box display='flex' justifyContent={'center'} mb={3} ><Typography variant={'h3'} >Sign Up</Typography></Box>

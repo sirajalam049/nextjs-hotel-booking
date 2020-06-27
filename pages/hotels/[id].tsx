@@ -4,6 +4,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import CallRoundedIcon from '@material-ui/icons/CallRounded';
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded';
 import { DatePickerProps, KeyboardDatePicker } from '@material-ui/pickers';
+import Meta from 'components/Meta';
 import dayjs from 'dayjs';
 import Header from 'features/Header';
 import { Formik, FormikProps } from 'formik';
@@ -15,7 +16,6 @@ import { Hotel } from 'models/hotel/@types';
 import UserModel from 'models/user';
 import { User } from 'models/user/@types';
 import { GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { FC, useEffect, useState } from 'react';
@@ -103,20 +103,14 @@ const HotelDetails: FC<HotelDetailsProps> = (props) => {
 
     return (
         <>
-            <Head>
-                <title>{hotel.name}</title>
-                <meta name="description" content={hotel.about} />
-                <meta property="og:title" content={hotel.name} />
-                <meta property="og:description" content={hotel.about} />
-                <meta property="og:url" content={`https://nextjs-hotel-booking.vercel.app${router.asPath}`} />
-                <meta property="og:image" content={hotel.thumbnail} />
-                <meta property="og:type" content="article" />
-                <meta property="article:author" content="Siraj Alam" />
-                <meta property="keywords" content="reactjs, javascript, foss, open-source, date-library, dayjs, momentJS" />
-                <meta name="article:published_time" content={hotel.created} />
-                <meta name="article:modified_time" content={hotel.updated} />
-                <meta property="og:locale" content="en_US" />
-            </Head>
+            <Meta
+                title={hotel.name + ' - nextJS'}
+                description={hotel.about}
+                useAsPath
+                created={hotel.created}
+                updated={hotel.updated}
+                image={hotel.thumbnail}
+            />
             <Header />
             <div className={classes.coverContainer} >
             </div>

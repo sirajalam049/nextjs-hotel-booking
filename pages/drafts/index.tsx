@@ -1,22 +1,25 @@
-import React, { FC } from 'react'
-import { Box, Container, Grid, Typography } from '@material-ui/core'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { Box, Container, Grid, Typography } from '@material-ui/core';
+import Meta from 'components/Meta';
+import withAuth from 'features/auth/withAuth';
+import BookingCard from 'features/booking/BookingCard';
+import Header from 'features/Header';
+import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { ReduxStore } from 'store';
 import { UserReducer } from 'store/user';
-import { useSelector } from 'react-redux';
-import Header from 'features/Header';
-import BookingCard from 'features/booking/BookingCard';
-import withAuth from 'features/auth/withAuth';
 
 export interface DraftsProps { }
 
 const Drafts: FC<DraftsProps> = (props) => {
-    const classes = useStyles();
 
     const { bookings = [] } = useSelector<ReduxStore, Pick<UserReducer, 'bookings'>>(({ User: { bookings } }) => ({ bookings: bookings?.filter(b => b.inDraft) }));
 
     return (
         <>
+            <Meta
+                title={'Drafts'}
+                description={'List of incomplete bookings are saved in the drafts, they will appear here.'}
+            />
             <Header />
             <Container maxWidth={'lg'} >
                 <Box my={5} ><Typography variant={'h1'} >Booking Draft</Typography></Box>
@@ -35,11 +38,5 @@ const Drafts: FC<DraftsProps> = (props) => {
         </>
     )
 }
-
-const useStyles = makeStyles<Theme>((theme) => {
-    return (createStyles({
-
-    }))
-})
 
 export default withAuth(Drafts)
