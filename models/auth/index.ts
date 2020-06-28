@@ -40,7 +40,6 @@ export default class AuthService {
     }
 
     static logout = () => {
-        console.log('I am called');
         // Clear user token and profile data from localStorage
         localStorage.removeItem('access_token');
         localStorage.removeItem('profile');

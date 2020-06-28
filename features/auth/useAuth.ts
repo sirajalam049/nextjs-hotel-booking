@@ -6,7 +6,7 @@ import { UserReducer } from "store/user";
 
 const useAuth = () => {
 
-    const { user: profile } = useSelector<ReduxStore, Pick<UserReducer, 'user'>>(({ User: { user } }) => ({ user }));
+    const { user } = useSelector<ReduxStore, Pick<UserReducer, 'user'>>(({ User: { user } }) => ({ user }));
 
     const dispatch = useDispatch();
 
@@ -38,9 +38,9 @@ const useAuth = () => {
     useEffect(() => {
         window.addEventListener('storage', setProfile);
         return () => window.removeEventListener('storage', setProfile);
-    }, [profile]);
+    }, [user]);
 
-    return { profile, setProfile, logout };
+    return { user, setProfile, logout };
 
 }
 

@@ -30,7 +30,7 @@ const withAuth = <P extends withAuthProps>(WrappedComponent: FC<P>) => {
 
             useEffect(() => {
                 authenticating();
-            }, [user]);
+            }, []);
 
             return (
                 loading ? 'Loading...' :
