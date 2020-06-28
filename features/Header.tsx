@@ -17,7 +17,7 @@ const Header: FC<HeaderProps> = (props) => {
 
     const router = useRouter();
 
-    const { profile, logout } = useAuth();
+    const { user: profile, logout } = useAuth();
 
     const { bookings } = useSelector<ReduxStore, Pick<UserReducer, 'bookings'>>(({ User: { bookings } }) => ({ bookings }));
 
