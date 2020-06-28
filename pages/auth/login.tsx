@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
-import Head from 'next/head';
 import Meta from 'components/Meta';
 
 const validationSchema = Yup.object({

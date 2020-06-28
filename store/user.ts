@@ -14,6 +14,7 @@ const UserReducer: Reducer<UserReducer> = (state = {}, action) => {
         case "USER_RECEIVED": return { ...state, user: action.data }
         case "BOOKINGS_RECEIVED": return { ...state, bookings: action.data }
         case "PUT_BOOKING": return { ...state, bookings: updateItemList(state.bookings || [], action.data, 'PUT') }
+        case "RESET": return { ...state, bookings: undefined, user: undefined }
         default: return state;
     }
 }
