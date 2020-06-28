@@ -24,9 +24,6 @@ const withAuth = <P extends withAuthProps>(WrappedComponent: FC<P>) => {
                 const flag = AuthService.loggedIn();
                 if (!flag) {
                     router.push('/');
-                    if (user) {
-                        dispatch({ type: "RESET" });
-                    }
                 }
                 setLoading(false);
             }

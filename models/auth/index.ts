@@ -25,6 +25,12 @@ export default class AuthService {
         return profile;
     }
 
+    static setToken = (token: string) => {
+        externalAxios.defaults.headers.common['Authorization'] = token
+        localAxios.defaults.headers.common['Authorization'] = token;
+        localStorage.setItem('access_token', token);
+    }
+
     static getToken = () => localStorage.getItem('access_token');
 
     static getProfile = (): User | undefined => {
@@ -39,20 +45,10 @@ export default class AuthService {
         localStorage.removeItem('profile');
     }
 
-    static setToken = (token: string) => {
-        externalAxios.defaults.headers.common['Authorization'] = token
-        localAxios.defaults.headers.common['Authorization'] = token;
-        localStorage.setItem('access_token', token);
-    }
-
     static loggedIn = () => {
         // Checks if there is a saved token and it's still valid
         const token = AuthService.getToken();
-        if (!token) return false;
-        else {
-            AuthService.setToken(token);
-            return true;
-        }
+        return !!token;
         // const isExpired = await AuthService.isTokenExpired(token).catch(err => { });
         // return !!isExpired;
     }
